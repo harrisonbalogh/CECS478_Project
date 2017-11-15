@@ -14,9 +14,9 @@ var TaskSchema = new Schema({
   status: {
     type: [{
       type: String,
-      enum: ['testState(pending)', 'ongoing', 'completed']
+      enum: ['pending', 'ongoing', 'completed']
     }],
-    default: ['testState(pending)']
+    default: ['pending']
   }
 });
 

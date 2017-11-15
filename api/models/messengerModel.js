@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-
 var TaskSchema = new Schema({
   name: {
     type: String,
@@ -15,9 +14,9 @@ var TaskSchema = new Schema({
   status: {
     type: [{
       type: String,
-      enum: ['pending', 'ongoing', 'completed']
+      enum: ['testState(pending)', 'ongoing', 'completed']
     }],
-    default: ['pending']
+    default: ['testState(pending)']
   }
 });
 

@@ -1,29 +1,27 @@
 'use strict';
-
-
 var mongoose = require('mongoose'),
-  Task = mongoose.model('Tasks');
+  Message = mongoose.model('Messages');
 
-exports.list_all_tasks = function(req, res) {
-  Task.find({}, function(err, task) {
+exports.upload_message = function(req, res) {
+  var new_message = new Message(req.body);
+  new_message.save(function(err, message) {
     if (err)
       res.send(err);
-    res.json(task);
+    res.json(message);
   });
 };
 
-exports.create_a_task = function(req, res) {
-  var new_task = new Task(req.body);
-  new_task.save(function(err, task) {
+/*
+exports.download_messages = function(req, res) {
+  Message.find({}, function(err, message) {
     if (err)
       res.send(err);
-    res.json(task);
+    res.json(message);
   });
 };
-
 
 exports.read_a_task = function(req, res) {
-  Task.findById(req.params.taskId, function(err, task) {
+  Message.findById(req.params.taskId, function(err, task) {
     if (err)
       res.send(err);
     res.json(task);
@@ -48,3 +46,4 @@ exports.delete_a_task = function(req, res) {
     res.json({ message: 'Task successfully deleted' });
   });
 };
+*/

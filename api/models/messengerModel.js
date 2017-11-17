@@ -2,22 +2,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var TaskSchema = new Schema({
-  name: {
+// Mongooose - Schema maps to MongoDB collection
+// Create new model for Schema call Messages
+module.exports = mongoose.model('Messages', new Schema({
+  content: {
     type: String,
-    required: 'Kindly enter the name of the task'
+    required: true
   },
-  Created_date: {
+  upload_date: {
     type: Date,
-    default: Date.now
-  },
-  status: {
-    type: [{
-      type: String,
-      enum: ['pending', 'ongoing', 'completed']
-    }],
-    default: ['pending']
+    required:  true
   }
-});
-
-module.exports = mongoose.model('Tasks', TaskSchema);
+}));

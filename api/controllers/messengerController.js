@@ -1,6 +1,6 @@
 'use strict';
 var mongoose = require('mongoose'),
-  Message = mongoose.model('Messages');
+  Message = mongoose.model('Message');
 
 exports.upload_message = function(req, res) {
   var new_message = new Message(req.body);

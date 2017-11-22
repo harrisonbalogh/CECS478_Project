@@ -3,14 +3,18 @@ var express = require('express'),
   port = process.env.PORT || 8080,
   mongoose = require('mongoose'),
   Message = require('./api/models/messengerModel'), //created model loading here
-  bodyParser = require('body-parser');
+  User = require('./api/models/userModel'),
+  bodyParser = require('body-parser'),
+  jwt = require('jsonwebtoken'),
+  config = require('./config');
   //,
   //expressJWT = require('express-jwt'),
   //jwt = require('jsonwebtoken');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Messagedb');
+mongoose.connect(config.message_database);
+app.set('appSecret', config.secret);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

@@ -11,6 +11,14 @@ exports.upload_message = function(req, res) {
   });
 };
 
+exports.download_messages = function(req, res) {
+  Message.find({}, function(err, message) {
+    if (err)
+      res.send(err);
+    res.json(message);
+  });
+};
+
 /*
 exports.download_messages = function(req, res) {
   Message.find({}, function(err, message) {

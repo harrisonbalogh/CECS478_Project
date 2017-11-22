@@ -7,8 +7,8 @@ module.exports = function(app) {
     .post(messageList.upload_message);
 
   // Login Route
-  app.route('/route')
-    .post();
-  app.signup()
-    .post();
+  // app.route('/route')
+  //   .post();
+  // app.signup()
+  //   .post();
 };

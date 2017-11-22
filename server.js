@@ -3,9 +3,9 @@ var express = require('express'),
   port = process.env.PORT || 8080,
   mongoose = require('mongoose'),
   Task = require('./api/models/messengerModel'), //created model loading here
-  bodyParser = require('body-parser'),
-  expressJWT = require('express-jwt'),
-  jwt = require('jsonwebtoken');
+  bodyParser = require('body-parser');//,
+  //expressJWT = require('express-jwt'),
+  //jwt = require('jsonwebtoken');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;

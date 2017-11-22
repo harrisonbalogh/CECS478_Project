@@ -40,3 +40,5 @@ Thumbs.db
 ####################
 node_modules/**
 node_modules/
+
+Atom Workspace.app/**

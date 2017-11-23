@@ -16,7 +16,7 @@ var obj = {
    secret: 'bytes'
 };
 var json = JSON.stringify(obj);
-fs.writeFile('key.json', json, {flag: 'w'});
+fs.writeFile('key.json', json);
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;

@@ -6,7 +6,8 @@ var express = require('express'),
   User = require('./api/models/userModel'),
   bodyParser = require('body-parser'),
   jwt = require('jsonwebtoken'),
-  config = require('./config.js');//,
+  config = require('./config.js'),
+  rand = require('csprng');//,
   //csprng = require("sodium").Random,
   //fs = require('fs');
 

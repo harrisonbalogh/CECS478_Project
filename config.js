@@ -1,7 +1,7 @@
 module.exports = {
 
     // Should be generated on restart.
-    'secret': '0not1really2sure3what4to5make6this7secret8thing9',
+    'secret': 'shrtandswt',
     'user_database': 'mongodb://localhost/Userdb',
     'message_database': 'mongodb://localhost/Messagedb'
 

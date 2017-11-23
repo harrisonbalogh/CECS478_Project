@@ -22,14 +22,14 @@ exports.login = function(req, res) {
           name: user.name
         };
         var token = jwt.sign(payload, config.secret, {
-          expiresInMinutes: 1440 // expires in 24 hours
+          expiresIn: 60*60*24 // expires in 24 hours
         });
         res.json({
           success: true,
           message: 'Token produced!',
           token: token
         });
-        res.json({ success: true, message: 'Login successful: ' + config.secret});
+        // res.json({ success: true, message: 'Login successful: ' + config.secret});
       }
     }
   });

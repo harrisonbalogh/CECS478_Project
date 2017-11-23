@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   jwt = require('jsonwebtoken'),
-  config = require('../../config.js');
+  secret = JSON.parse(fs.readFileSync("key.json")).secret;
 
 exports.login = function(req, res) {
   User.findOne({
@@ -21,7 +21,7 @@ exports.login = function(req, res) {
         const payload = {
           name: user.name
         };
-        var token = jwt.sign(payload, config.secret, {
+        var token = jwt.sign(payload, secret, {
           expiresIn: 60*60*24 // expires in 24 hours
         });
         res.json({
@@ -29,7 +29,6 @@ exports.login = function(req, res) {
           message: 'Token produced!',
           token: token
         });
-        // res.json({ success: true, message: 'Login successful: ' + config.secret});
       }
     }
   });

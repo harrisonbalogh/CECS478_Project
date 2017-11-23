@@ -10,25 +10,22 @@ var express = require('express'),
   rand = require('csprng'),
   fs = require('fs');
 
-// Generate appSecret
+// Generate JWT secret key
 var obj = {
    secret: rand(128, 10)
 };
 var json = JSON.stringify(obj);
 fs.writeFile('key.json', json, 'utf8', function(err) {
-    if (err) throw err;
-    console.log('complete');
+      if (err) throw err;
     }
 );
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 mongoose.connect(config.message_database);
-app.set('appSecret', config.secret);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(expressJWT({ secret: 'supersecret' }).unless({}))
 
 var middleware = require('./api/middleware');
 var messengerRoutes = require('./api/routes/messengerRoutes'); //importing route

@@ -1,4 +1,5 @@
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken'),
+    config = require('../config.js');
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -10,9 +11,9 @@ module.exports = function(app) {
     if (token) {
 
       // verifies secret and checks exp
-      jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+      jwt.verify(token, config.secret, function(err, decoded) {
         if (err) {
-          return res.json({ success: false, message: 'Failed to authenticate token with secret: ' + app.get('superSecret') });
+          return res.json({ success: false, message: 'Failed to authenticate token with secret: ' + config.secret });
         } else {
           // if everything is good, save to request for use in other routes
           req.decoded = decoded;

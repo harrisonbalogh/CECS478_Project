@@ -13,10 +13,9 @@ var express = require('express'),
 // Generate JWT secret key
 var bytes = rand(128,10);
 var obj = {
-   secret: 'bytes'
+   secret: bytes
 };
 var json = JSON.stringify(obj);
-console.log('json to be saved: ' + json);
 fs.writeFileSync('key.json', json);
 
 // mongoose instance connection url connection

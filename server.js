@@ -7,7 +7,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   jwt = require('jsonwebtoken'),
   config = require('./config.js'),
-  csprng = require("sodium").Random;
+  csprng = require("sodium").Random,
   fs = require('fs');
 
 // Generate appSecret

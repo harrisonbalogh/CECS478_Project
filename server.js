@@ -5,8 +5,8 @@ var express = require('express'),
   Message = require('./api/models/messengerModel'), //created model loading here
   User = require('./api/models/userModel'),
   bodyParser = require('body-parser'),
-  jwt = require('jsonwebtoken');//,
-  //config = require('./config');
+  jwt = require('jsonwebtoken'),
+  config = require('./config');
   //,
   //expressJWT = require('express-jwt'),
   //jwt = require('jsonwebtoken');

@@ -7,10 +7,4 @@ module.exports = function(app) {
   app.route('/messages')
     .post(messageList.upload_message)
     .get(messageList.download_messages);
-
-  // Login Route
-  // app.route('/route')
-  //   .post();
-  // app.signup()
-  //   .post();
 };

@@ -6,10 +6,16 @@ var express = require('express'),
   User = require('./api/models/userModel'),
   bodyParser = require('body-parser'),
   jwt = require('jsonwebtoken'),
-  config = require('./config.js');
-  //,
-  //expressJWT = require('express-jwt'),
-  //jwt = require('jsonwebtoken');
+  config = require('./config.js'),
+  csprng = require("sodium").Random;
+  fs = require('fs');
+
+// Generate appSecret
+var obj = {
+   secret: csprng.randombytes_buf(16)
+};
+var json = JSON.stringify(obj);
+fs.writeFile('key.json', json, 'utf8', callback);
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -25,7 +31,7 @@ var messengerRoutes = require('./api/routes/messengerRoutes'); //importing route
 var userRoutes = require('./api/routes/userRoutes'); //importing route
 
 userRoutes(app); //register the routes
-middleware(app); //register JWT 
+middleware(app); //register JWT
 messengerRoutes(app); //register the routes
 
 app.listen(port);

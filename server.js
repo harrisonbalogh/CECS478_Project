@@ -20,10 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(expressJWT({ secret: 'supersecret' }).unless({}))
 
+var middleware = require('./api/middleware');
 var messengerRoutes = require('./api/routes/messengerRoutes'); //importing route
 var userRoutes = require('./api/routes/userRoutes'); //importing route
-messengerRoutes(app); //register the routes
+
 userRoutes(app); //register the routes
+middleware(app); //register JWT 
+messengerRoutes(app); //register the routes
 
 app.listen(port);
 

@@ -12,9 +12,8 @@ var express = require('express'),
 
 // Generate JWT secret key
 var bytes = rand(128,10);
-console.log("Confused: " + bytes);
 var obj = {
-   secret: bytes
+   secret: 'bytes'
 };
 var json = JSON.stringify(obj);
 fs.writeFile('key.json', json, 'utf8', function(err) {

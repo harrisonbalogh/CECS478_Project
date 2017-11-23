@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken'),
     config = require('../config.js'),
-    fs = require('fs'),
-    secret = JSON.parse(fs.readFileSync("key.json")).secret;
+    fs = require('fs');
+var secret = JSON.parse(fs.readFileSync("key.json")).secret;
 
 module.exports = function(app) {
   app.use(function(req, res, next) {

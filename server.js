@@ -5,16 +5,16 @@ var express = require('express'),
   Message = require('./api/models/messengerModel'), //created model loading here
   User = require('./api/models/userModel'),
   bodyParser = require('body-parser'),
-  jwt = require('jsonwebtoken'),
-  config = require('./config');
+  jwt = require('jsonwebtoken');//,
+  //config = require('./config');
   //,
   //expressJWT = require('express-jwt'),
   //jwt = require('jsonwebtoken');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.message_database);
-app.set('appSecret', config.secret);
+mongoose.connect('mongodb://localhost/Messagedb');
+// app.set('appSecret', config.secret);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

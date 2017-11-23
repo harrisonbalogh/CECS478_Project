@@ -14,8 +14,8 @@ var express = require('express'),
 var obj = {
    secret: csprng.randombytes_buf(16)
 };
-var json = JSON.stringify(obj);
-fs.writeFile('key.json', json, 'utf8', callback);
+// var json = JSON.stringify(obj);
+// fs.writeFile('key.json', json, 'utf8', callback);
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;

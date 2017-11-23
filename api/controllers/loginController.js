@@ -2,6 +2,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   jwt = require('jsonwebtoken'),
+  fs = require('fs'),
   secret = JSON.parse(fs.readFileSync("key.json")).secret;
 
 exports.login = function(req, res) {

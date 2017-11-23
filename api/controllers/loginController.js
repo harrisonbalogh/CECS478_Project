@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   jwt = require('jsonwebtoken'),
-  config = require('../../config.js'),
+  config = require('./config.js'),
 
 exports.login = function(req, res) {
   User.findOne({

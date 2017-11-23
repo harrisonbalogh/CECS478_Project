@@ -14,7 +14,7 @@ var express = require('express'),
 var obj = {
    secret: rand(128, 10)
 };
-// var json = JSON.stringify(obj);
+var json = JSON.stringify(obj);
 // fs.writeFile('key.json', json, 'utf8', callback);
 
 // mongoose instance connection url connection

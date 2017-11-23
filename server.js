@@ -11,9 +11,9 @@ var express = require('express'),
   //fs = require('fs');
 
 // Generate appSecret
-var obj = {
-   secret: csprng.randombytes_buf(16)
-};
+// var obj = {
+//    secret: csprng.randombytes_buf(16)
+// };
 // var json = JSON.stringify(obj);
 // fs.writeFile('key.json', json, 'utf8', callback);
 

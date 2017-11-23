@@ -1,11 +1,37 @@
 'use strict';
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  jwt = require('jsonwebtoken'),
+  express = require('express'),
+  app = express();
 
 exports.login = function(req, res) {
-  if (err)
-    res.send(err);
-  res.send(200);
+  User.findOne({
+    name: req.body.name
+  }, function(err, user) {
+    if (err)
+      res.send(err);
+
+    if (!user) {
+      res.json({ success: false, message: 'Login failed. User not found.' });
+    } else if (user) {
+      if (user.password != req.body.password) {
+        res.json({ success: false, message: 'Login failed. Wrong password.' });
+      } else {
+        const payload = {
+          name: user.name
+        };
+        var token = jwt.sign(payload, app.get('appSecret'), {
+          expiresInMinutes: 1440 // expires in 24 hours
+        });
+        res.json({
+          success: true,
+          message: 'Token produced!',
+          token: token
+        });
+      }
+    }
+  });
 };
 
 exports.register = function(req, res) {

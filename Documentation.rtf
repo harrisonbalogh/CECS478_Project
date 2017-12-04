@@ -405,4 +405,8 @@ The socket stream itself must be validated independently of the web application.
 \
 	https://auth0.com/blog/auth-with-socket-io/\
 \
-}
+
+\b Nginx
+\b0 \
+\
+Nginx directs all '/messages' traffic to the node server since node listens on port 8080 and 10001. Port 10001 is for websocket connections.}

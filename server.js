@@ -36,11 +36,13 @@ middleware(app); //NOTE: Order that the middleware gets loaded is important.
 messengerRoutes(app); //register the routes
 
 // Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
-// This application can go through port 8080 to access HTTPS.
-var server = app.listen(port);
+// Nginx listens locally on the server to port 8080 responding to http://127.0.0.1
+app.listen(port); // http://127.0.0.1:8080
 
 // Setup socket
-var io = require('socket.io')(server);
+var socketServer = app.listen(10001); // http://127.0.0.1:10001
+var io = require('socket.io')(socketServer);
+
 // io.on('connection', socketioJwt.authorize({
 //     secret: JSON.parse(fs.readFileSync("key.json")).secret,
 //     timeout: 15000 // 15 seconds to send the authentication message
@@ -48,6 +50,7 @@ var io = require('socket.io')(server);
 //     //this socket is authenticated, we are good to handle more events from it.
 //     console.log('hello! ' + socket.decoded_token.name);
 // });
+
 io.on('connection', function (socket) {
   console.log("On connection...");
   socket.emit('message', {content: 'somemessage'});

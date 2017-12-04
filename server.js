@@ -43,7 +43,7 @@ loginApp.listen(port); // http://127.0.0.1:8080
 
 // Setup socket
 var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
-var io = require('socket.io')(socketServer);
+var io = require('socket.io')(socketServer).of('/messages');
 
 // io.on('connection', socketioJwt.authorize({
 //     secret: JSON.parse(fs.readFileSync("key.json")).secret,

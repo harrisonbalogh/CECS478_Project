@@ -30,7 +30,8 @@ var messengerRoutes = require('./api/routes/messengerRoutes'); //importing route
 var userRoutes = require('./api/routes/userRoutes'); //importing route
 
 userRoutes(app); //register the routes
-middleware(app); //register JWT
+middleware(app); //NOTE: Order that the middleware gets loaded is important.
+// All routes loaded below the middleware must have JWT authentication.
 messengerRoutes(app); //register the routes
 
 app.listen(port);

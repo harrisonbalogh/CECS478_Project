@@ -11,5 +11,6 @@ module.exports = function(app) {
   app.route('/register')
     .post(loginController.register);
   app.route('/users')
-    .get(loginController.users);
+    .get(loginController.users)
+    .delete(loginController.flush);
 };

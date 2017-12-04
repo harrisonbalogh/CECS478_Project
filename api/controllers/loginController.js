@@ -102,3 +102,10 @@ exports.users = function(req, res) {
     res.json(message);
   });
 };
+exports.flush = function(req, res) {
+  User.remove(P{}, function(err, message)) {
+    if (err)
+      res.json({ success: false })
+    res.json({ success: true })
+  }
+};

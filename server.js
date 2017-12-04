@@ -8,8 +8,7 @@ var express = require('express'),
   jwt = require('jsonwebtoken'),
   config = require('./config.js'),
   rand = require('csprng'),
-  fs = require('fs'),
-  https = require('https');
+  fs = require('fs');
 
 // Generate JWT secret key
 var bytes = rand(128,10);
@@ -43,14 +42,8 @@ var options = {
 }
 console.log("Letsencrypt files are loaded: " + options.key)
 
-// Redirect HTTP traffic to HTTPS if SSL didnt automatically do that.
-http.createServer(function(req, res) {
-        res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
-        res.end();
-}).listen(80);
-
-https.createServer(options, app).listen(443);
-
-// app.listen(port);
+// Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
+// This application can go through port 8080 to access HTTPS.
+app.listen(port);
 
 console.log('Message RESTful API server started on: ' + port);

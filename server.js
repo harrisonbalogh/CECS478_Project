@@ -19,7 +19,7 @@ var obj = {
 var json = JSON.stringify(obj);
 fs.writeFileSync('key.json', json);
 
-// mongoose instance connection url connection
+// Mongoose instance connection url
 mongoose.Promise = global.Promise;
 mongoose.connect(config.message_database);
 
@@ -35,10 +35,19 @@ middleware(app); //NOTE: Order that the middleware gets loaded is important.
 // All routes loaded below the middleware must have JWT authentication.
 messengerRoutes(app); //register the routes
 
+// Get LetsEncrypt SSL certificates to sign HTTPS.
 var options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/private.key'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/cert.key')
+  key: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/private.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/chain.pem')
 }
+console.log("Letsencrypt files are loaded: " + options.key)
+
+// Redirect HTTP traffic to HTTPS if SSL didnt automatically do that.
+http.createServer(function(req, res) {
+        res.writeHead(301, {"Location": "https://" + req.headers['host'] + req.url});
+        res.end();
+}).listen(80);
 
 https.createServer(options, app).listen(443);
 

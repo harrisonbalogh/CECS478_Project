@@ -36,6 +36,10 @@ messengerRoutes(app); //register the routes
 
 // Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
 // This application can go through port 8080 to access HTTPS.
-app.listen(port);
+var server = app.listen(port);
+
+// Setup socket
+var io = require('socket.io')(server);
+app.set('socketio', io);
 
 console.log('Message RESTful API server started on: ' + port);

@@ -2,22 +2,27 @@
 var mongoose = require('mongoose'),
   Message = mongoose.model('Message');
 
-exports.upload_message = function(req, res) {
-  var new_message = new Message(req.body);
-  new_message.save(function(err, message) {
-    if (err)
-      res.send(err);
-    res.json(message);
-  });
-};
+exports.connect = function(req, res) {
+  var io = req.app.get('socketio');
+  io.emit('hi!');
+}
 
-exports.download_messages = function(req, res) {
-  Message.find({}, function(err, message) {
-    if (err)
-      res.send(err);
-    res.json(message);
-  });
-};
+// exports.upload_message = function(req, res) {
+//   var new_message = new Message(req.body);
+//   new_message.save(function(err, message) {
+//     if (err)
+//       res.send(err);
+//     res.json(message);
+//   });
+// };
+//
+// exports.download_messages = function(req, res) {
+//   Message.find({}, function(err, message) {
+//     if (err)
+//       res.send(err);
+//     res.json(message);
+//   });
+// };
 
 /*
 exports.download_messages = function(req, res) {

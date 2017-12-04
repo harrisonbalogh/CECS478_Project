@@ -5,6 +5,5 @@ module.exports = function(app) {
 
   // Message Post Route
   app.route('/messages')
-    .post(messageList.upload_message)
-    .get(messageList.download_messages);
+    .post(messageList.connect);
 };

@@ -4,11 +4,61 @@
 }
 {\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c66500\c5200\c56900;
 }
-\margl1440\margr1440\vieww14700\viewh16280\viewkind1
+\margl1440\margr1440\vieww14400\viewh16580\viewkind1
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul \ulc0 \
+Contents of this File\
+\
+\ulnone \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\b\fs24 \cf0 Connecting to Server
+\fs24 \cf0 \
+\'95 Connecting to Server\
+\
+\'95 Server Workflow\
+	\'95 Updating Node.js Packages\
+	\'95 Development Machines\
+\
+\'95 JWT\
+\
+\'95 Server Details\
+\
+\'95 Password Policies\
+\
+\'95 Database Model\
+\
+\'95 Messenger API\
+\
+\'95 Git Tips\
+\
+\'95 Swift Development Tips\
+\
+\'95 TLS/SSL
 \b0 \
+
+\b \
+\'95 Websockets\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+\fs32 Connecting to Server
+\b0\fs24 \
 \
 The server (AWS EC2 instance) has the key pairs of both development machines. Connecting to the server requires the usage of the following command in a terminal:\
 \
@@ -17,8 +67,9 @@ The server (AWS EC2 instance) has the key pairs of both development machines. Co
 This is the default SSH connection method as specified by AWS.
 \b \
 \
-Server Workflow
-\b0 \
+
+\fs32 Server Workflow
+\b0\fs24 \
 \
 Changes to the server are committed to the 
 \i origin
@@ -52,35 +103,36 @@ The lines argument can be decreased, increased, or omitted. \
 \
 
 \i 	
-\i0\b Updating Node.js Packages\
+\i0\b\fs32 Updating Node.js Packages
+\fs24 \
 \
 	
-\b0 Inside the ~/messengerAPI/package.json file are the server application's dependencies. See this file for formatting. When adding a new dependency (or in the case if a necessary update) call the following command:\
+\b0 Inside the ~/messengerAPI/package.json file are the server application's 	 	dependencies. See this file for formatting. When adding a new dependency (or in 	the case if a necessary update) call the following command:\
 \
 		sudo npm install\
 \
 	
-\b Development Machine
-\b0 \
+\b\fs32 Development Machines
+\b0\fs24 \
 \
-	To start developing on a local machine, the server.js file from the server repository must be started. Ensure the same packages are installed as matches the server by following the instructions in 
+	To start developing on a local machine, the server.js file from the server 		repository must be started. Ensure the same packages are installed as matches 	the server by following the instructions in 
 \b Updating Node.js Packages
-\b0 . The instructions in 
+\b0 . The 	instructions in 
 \b Server Workflow
-\b0  can be followed on the development machine but first use the following command to start the MongoDB database:\
+\b0  can be followed on the development machine 	but first use the following command to start the MongoDB database:\
 \
 		mongod\
 \
-	This will attach itself to a terminal and can be stopped using Ctl+C. After this, start the node server application by changing the terminal's focus directory to the location of the server.js file and then call:\
+	This will attach itself to a terminal and can be stopped using Ctl+C. After this, 	start the node server application by changing the terminal's focus directory to the 	location of the server.js file and then call:\
 \
 		sudo pm2 start server.js\
 \
-	The location of server.js is located in the server git repository. To test API calls, instead of using https://hm478project.me/[API CALL]/, you would use http://localhost:8080/[API CALL]/.\
+	The location of server.js is located in the server git repository. To test API calls, 	instead of using https://hm478project.me/[API CALL]/, you would use http://	localhost:8080/[API CALL]/.\
 	\
 \
 
-\b JWT
-\b0 \
+\b\fs32 JWT
+\b0\fs24 \
 \
 The secret used in JWT signing is generated when 
 \i server.js
@@ -90,8 +142,8 @@ The secret used in JWT signing is generated when
 \
 \
 
-\b Server Details
-\b0 \
+\b\fs32 Server Details
+\b0\fs24 \
 \
 \'95 AWS EC2 Instance\
 \'95 Express\
@@ -100,6 +152,7 @@ The secret used in JWT signing is generated when
 \'95 Ubuntu 14\
 \'95 PM2\
 \'95 NPM\
+\'95 Socket.io\
 \
 API directory location in the ubuntu user directory:\
 	\
@@ -107,24 +160,20 @@ API directory location in the ubuntu user directory:\
 \
 \
 
-\b Password Policies (To Implement)
-\b0 \
+\b\fs32 Password Policies 
+\b0\fs24 \
 \
-\'95 Minimum length 8.\
-\'95 At least 1 number.\
-\'95 At least 1 capital letter.\
-\
-To-Do:\
-	Hash passwords\
-	Remote Login protocol\
-	Username Availability\
-	Password Policies\
-\
-Message Protocol (Design):\
+\'95 Minimum length is 8.\
+\'95 
+\i (To Implement) 
+\i0 At least 1 number.\
+\'95 
+\i (To Implement) 
+\i0 At least 1 capital letter.\
 \
 
-\b Database Model
-\b0 \
+\b\fs32 Database Model
+\b0\fs24 \
 \
 	
 \b User
@@ -150,7 +199,8 @@ Message Protocol (Design):\
 			time of account registration.\
 \
 
-\b Messenger API\
+\b\fs32 Messenger API
+\fs24 \
 
 \b0 \
 \
@@ -199,7 +249,7 @@ Message Protocol (Design):\
 
 \b0 	- A valid JWT token must be included in the header for key '
 \i x-access-token
-\i0 ' i order to access the following API calls.\
+\i0 ' i 	order to access the following API calls.\
 	/messages/\
 		POST\
 			Keys\
@@ -223,8 +273,8 @@ Message Protocol (Design):\
 \
 \
 
-\b Git Tips
-\b0 \
+\b\fs32 Git Tips
+\b0\fs24 \
 \
 To setup an ssh-connected server repository, you first want to create your git repository. Follow these steps: \
 	1. SSH to your server. For this tutorial, it is required that the SSH protocol logins 	solely by key validation and not password. See 
@@ -262,55 +312,88 @@ To setup an ssh-connected server repository, you first want to create your git r
 \
 \
 
-\b Swift Development Tip
-\b0 \
+\b\fs32 Swift Development Tip
+\b0\fs24 \
 \
-Disable secure connection checks for URL sessions by adding to a project's Info.plist.\
+\'95 External libraries for our MacOSX Swift client were installed and integrated using the pods system. This requires a file named '
+\i Podfile
+\i0 ' to be created in the directory of your applications main repository. Once you've created (or whenever updating) your podfile, call the command in a terminal on the directory of your 
+\i Podfile
+\i0 :\
+\
+	pod install\
+\
+Note: It may be necessary to append ' --repo-update' to the end of the previous terminal command if any pods are out of date. \
+If you are using an Xcode project with libraries installed by the pod system, you can no longer use the .
+\i xcodeproj
+\i0  file to open your project in Xcode. The file to be used is in the same directory as the 
+\i Podfile
+\i0  and has the .
+\i xcworkspace
+\i0  extension.\
+When opening the .
+\i xcworkspace
+\i0  file, you should see your project and another project named 'Pods' open in same development window. If you expand the Pods project and look in the Pods directory, there should be a list of \
+\
+\'95 Disable secure connection checks for URL sessions by adding to a project's Info.plist when developing locally. Note: Open the Info.plist file as source code instead of pro\
 \
 \pard\tx593\pardeftab593\pardirnatural\partightenfactor0
 
-\f1 \cf2 \cb3     \cf4 <key>\cf2 NSAppTransportSecurity\cf4 </key>
+\f1 \cf2 \cb3     	\cf4 <key>\cf2 NSAppTransportSecurity\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2     \cf4 <dict>
+\f1 \cf2     	\cf4 <dict>
 \f0 \cf0 \
 
-\f1 \cf2         \cf4 <key>\cf2 NSAllowsArbitraryLoads\cf4 </key>
+\f1 \cf2         	\cf4 <key>\cf2 NSAllowsArbitraryLoads\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2         \cf4 <true/>
+\f1 \cf2         	\cf4 <true/>
 \f0 \cf0 \
 
-\f1 \cf2         \cf4 <key>\cf2 NSExceptionDomains\cf4 </key>
+\f1 \cf2         	\cf4 <key>\cf2 NSExceptionDomains\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2         \cf4 <dict>
+\f1 \cf2         	\cf4 <dict>
 \f0 \cf0 \
 
-\f1 \cf2             \cf4 <key>\cf2 example.com\cf4 </key>
+\f1 \cf2             	\cf4 <key>\cf2 example.com\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2             \cf4 <dict>
+\f1 \cf2             	\cf4 <dict>
 \f0 \cf0 \
 
-\f1 \cf2                 \cf4 <key>\cf2 NSExceptionAllowsInsecureHTTPLoads\cf4 </key>
+\f1 \cf2                 	\cf4 <key>\cf2 NSExceptionAllowsInsecureHTTPLoads\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2                 \cf4 <true/>
+\f1 \cf2                 	\cf4 <true/>
 \f0 \cf0 \
 
-\f1 \cf2                 \cf4 <key>\cf2 NSIncludesSubdomains\cf4 </key>
+\f1 \cf2                 	\cf4 <key>\cf2 NSIncludesSubdomains\cf4 </key>
 \f0 \cf0 \
 
-\f1 \cf2                 \cf4 <true/>
+\f1 \cf2                 	\cf4 <true/>
 \f0 \cf0 \
 
-\f1 \cf2             \cf4 </dict>
+\f1 \cf2             	\cf4 </dict>
 \f0 \cf0 \
 
-\f1 \cf2         \cf4 </dict>
+\f1 \cf2        	\cf4 </dict>
 \f0 \cf0 \
 
-\f1 \cf2     \cf4 </dict>\
+\f1 \cf2     	\cf4 </dict>\
 \
-}
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs32 \cf0 \cb1 TLS/SSL
+\b0\fs24 \
+\
+The server uses LetsEncrypt to provide validate SSL certificates. Since our server has Nginx serving as a reverse proxy for our NodeJs server application, it's Nginx that handles SSL and not NodeJs. Nginx interacts with LetsEncrypt's certs to ensure up to TLS1.2 protocol for a secure HTTPS connection. It also handles redirects from HTTP to HTTPS to force all calls to go through TLS. This seems to have negligible overhead for our small-scale system. We decided to handle SSL through Nginx and not NodeJs for better organization and less code in our Node app.\
+\
+
+\b\fs32 Websockets
+\b0\fs24 \
+\
+Our MacOSX Swift client uses the library 
+\i Starscream
+\i0  for socket connections and our NodeJs server uses its own Net library for socket connections.}

@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
   Message = mongoose.model('Message');
 
 exports.connect = function(req, res) {
-  console.log("Got a socket connection!!??");
   var io = req.app.get('socketio');
-  io.emit('hi!');
+  console.log("Socketio obtained: " + io);
+  io.emit('A response!!!');
 }
 
 // exports.upload_message = function(req, res) {

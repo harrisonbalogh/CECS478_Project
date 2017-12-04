@@ -83,7 +83,7 @@ exports.register = function(req, res) {
         new_user.save(function(err, message) {
           if (err)
             res.json({ success: false });
-          res.json({ succes: true });
+          res.json({ success: true });
         });
       } else {
         res.json({ success: false}); // Must be at least 8 characters.

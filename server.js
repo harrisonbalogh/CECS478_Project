@@ -34,14 +34,6 @@ middleware(app); //NOTE: Order that the middleware gets loaded is important.
 // All routes loaded below the middleware must have JWT authentication.
 messengerRoutes(app); //register the routes
 
-// Get LetsEncrypt SSL certificates to sign HTTPS.
-var options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/private.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/chain.pem')
-}
-console.log("Letsencrypt files are loaded: " + options.key)
-
 // Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
 // This application can go through port 8080 to access HTTPS.
 app.listen(port);

@@ -103,9 +103,9 @@ exports.users = function(req, res) {
   });
 };
 exports.flush = function(req, res) {
-  User.remove({}, function(err, message)) {
+  User.remove({}, function(err, message) {
     if (err)
       res.json({ success: false })
     res.json({ success: true })
-  }
+  });
 };

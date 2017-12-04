@@ -8,7 +8,8 @@ var express = require('express'),
   jwt = require('jsonwebtoken'),
   config = require('./config.js'),
   rand = require('csprng'),
-  fs = require('fs');
+  fs = require('fs'),
+  socketioJwt = require("socketio-jwt");
 
 // Generate JWT secret key
 var bytes = rand(128,10);

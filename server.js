@@ -40,17 +40,24 @@ var server = app.listen(port);
 
 // Setup socket
 var io = require('socket.io')(server);
-io.on('connection', function (socket) {
-  console.log("On connection...");
-  socket.emit('message', {content: 'somemessage'});
-  socket.on('received', function(data) {
-    console.log("Received this data: " + data);
-  });
-  // socket.emit('news', { hello: 'world' });
-  // socket.on('my other event', function (data) {
-  //   console.log(data);
-  // });
+io.on('connection', socketioJwt.authorize({
+    secret: bytes,
+    timeout: 15000 // 15 seconds to send the authentication message
+  })).on('authenticated', function(socket) {
+    //this socket is authenticated, we are good to handle more events from it.
+    console.log('hello! ' + socket.decoded_token.name);
 });
-app.set('socketio', io);
+// io.on('connection', function (socket) {
+//   console.log("On connection...");
+//   socket.emit('message', {content: 'somemessage'});
+//   socket.on('received', function(data) {
+//     console.log("Received this data: " + data);
+//   });
+//   // socket.emit('news', { hello: 'world' });
+//   // socket.on('my other event', function (data) {
+//   //   console.log(data);
+//   // });
+// });
+// app.set('socketio', io);
 
 console.log('Message RESTful API server started on: ' + port);

@@ -153,6 +153,7 @@ The secret used in JWT signing is generated when
 \'95 PM2\
 \'95 NPM\
 \'95 Socket.io\
+\'95 socketio-jwt\
 \
 API directory location in the ubuntu user directory:\
 	\
@@ -396,4 +397,12 @@ The server uses LetsEncrypt to provide validate SSL certificates. Since our serv
 \
 Our MacOSX Swift client uses the library 
 \i Starscream
-\i0  for socket connections and our NodeJs server uses its own Net library for socket connections.}
+\i0  for socket connections and our NodeJs server uses its own Net library for socket connections.\
+\
+The socket stream itself must be validated independently of the web application. So we are using 
+\i socketio-jwt
+\i0  to do that. See this for reference:\
+\
+	https://auth0.com/blog/auth-with-socket-io/\
+\
+}

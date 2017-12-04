@@ -1,5 +1,6 @@
 var express = require('express'),
-  app = express(),
+  loginApp = express(),
+  messageApp = express(),
   port = process.env.PORT || 8080,
   mongoose = require('mongoose'),
   Message = require('./api/models/messengerModel'), //created model loading here
@@ -9,7 +10,8 @@ var express = require('express'),
   config = require('./config.js'),
   rand = require('csprng'),
   fs = require('fs'),
-  socketioJwt = require("socketio-jwt");
+  socketioJwt = require("socketio-jwt"),
+  http = require('http');
 
 // Generate JWT secret key
 var bytes = rand(128,10);
@@ -23,24 +25,24 @@ fs.writeFileSync('key.json', json);
 mongoose.Promise = global.Promise;
 mongoose.connect(config.message_database);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+loginApp.use(bodyParser.urlencoded({ extended: true }));
+loginApp.use(bodyParser.json());
 
 var middleware = require('./api/middleware');
 var messengerRoutes = require('./api/routes/messengerRoutes'); //importing route
 var userRoutes = require('./api/routes/userRoutes'); //importing route
 
-userRoutes(app); //register the routes
-middleware(app); //NOTE: Order that the middleware gets loaded is important.
+userRoutes(loginApp); //register the routes
+middleware(loginApp); //NOTE: Order that the middleware gets loaded is important.
 // All routes loaded below the middleware must have JWT authentication.
-messengerRoutes(app); //register the routes
+messengerRoutes(loginApp); //register the routes
 
 // Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
 // Nginx listens locally on the server to port 8080 responding to http://127.0.0.1
-app.listen(port); // http://127.0.0.1:8080
+loginApp.listen(port); // http://127.0.0.1:8080
 
 // Setup socket
-var socketServer = app.listen(10001); // http://127.0.0.1:10001
+var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
 var io = require('socket.io')(socketServer);
 
 // io.on('connection', socketioJwt.authorize({
@@ -62,6 +64,6 @@ io.on('connection', function (socket) {
   //   console.log(data);
   // });
 });
-// app.set('socketio', io);
+// loginApp.set('socketio', io);
 
 console.log('Message RESTful API server started on: ' + port);

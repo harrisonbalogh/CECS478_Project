@@ -8,7 +8,8 @@ var express = require('express'),
   jwt = require('jsonwebtoken'),
   config = require('./config.js'),
   rand = require('csprng'),
-  fs = require('fs');
+  fs = require('fs'),
+  https = require('https');
 
 // Generate JWT secret key
 var bytes = rand(128,10);
@@ -34,6 +35,13 @@ middleware(app); //NOTE: Order that the middleware gets loaded is important.
 // All routes loaded below the middleware must have JWT authentication.
 messengerRoutes(app); //register the routes
 
-app.listen(port);
+var options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/private.key'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/hm478project.me/cert.key')
+}
+
+https.createServer(options, app).listen(443);
+
+// app.listen(port);
 
 console.log('Message RESTful API server started on: ' + port);

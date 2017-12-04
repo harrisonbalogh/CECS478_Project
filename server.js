@@ -42,10 +42,10 @@ var server = app.listen(port);
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
   console.log("On connection");
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+  // socket.emit('news', { hello: 'world' });
+  // socket.on('my other event', function (data) {
+  //   console.log(data);
+  // });
 });
 app.set('socketio', io);
 

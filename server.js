@@ -60,7 +60,7 @@ io.on('connection', socketioJwt.authorize({
     // socket.emit('response', (socket.decoded_token.name + " has connected."));
     socket.on('message', function (data) {
       clients.forEach(function(clientSocket) {
-        clientSocket.emit('response', (socket.decoded_token.name + data));
+        clientSocket.emit('response', (socket.decoded_token.name + ": " + data));
       });
       // socket.emit('response', (socket.decoded_token.name + data));
     });

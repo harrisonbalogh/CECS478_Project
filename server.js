@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
   // socket.emit('message', {content: 'somemessage'});
   // socket.on('received', function(data) {
   //   console.log("Received this data: " + data);
-  });
+  // });
   // socket.emit('news', { hello: 'world' });
   // socket.on('my other event', function (data) {
   //   console.log(data);

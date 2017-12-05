@@ -52,8 +52,13 @@ io.on('connection', socketioJwt.authorize({
   })).on('authenticated', function(socket) {
     //this socket is authenticated, we are good to handle more events from it.
     console.log(Date.now() + ' :: User has connected ::  ' + socket.decoded_token.name);
+    socket.emit('response', (socket.decoded_token.name + " has connected."));
     socket.on('message', function (data) {
-      socket.emit('response', {content: data});
+      socket.emit('response', (socket.decoded_token.name + data));
+    });
+    io.on('disconnect', function (data) {
+      socket.emit('response', (socket.decoded_token.name + " has disconnected."));
+      console.log(Date.now() + ' :: User has disconnected ::  ' + socket.decoded_token.name);
     });
 });
 // io.on('connection', function (socket) {

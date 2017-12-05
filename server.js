@@ -55,9 +55,9 @@ var io = require('socket.io')(socketServer)
 // });
 io.on('connection', function (socket) {
   console.log("On connection...");
-  socket.emit('message', {content: 'somemessage'});
-  socket.on('received', function(data) {
-    console.log("Received this data: " + data);
+  // socket.emit('message', {content: 'somemessage'});
+  // socket.on('received', function(data) {
+  //   console.log("Received this data: " + data);
   });
   // socket.emit('news', { hello: 'world' });
   // socket.on('my other event', function (data) {

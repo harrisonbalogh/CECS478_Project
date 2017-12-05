@@ -46,15 +46,15 @@ loginApp.listen(port); // http://127.0.0.1:8080
 // Setup socket
 var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
 var io = require('socket.io')(socketServer)
-// io.on('connection', socketioJwt.authorize({
-//     secret: JSON.parse(fs.readFileSync("key.json")).secret,
-//     timeout: 15000 // 15 seconds to send the authentication message
-//   })).on('authenticated', function(socket) {
-//     //this socket is authenticated, we are good to handle more events from it.
-//     console.log('hello! ' + socket.decoded_token.name);
-// });
-io.on('connection', function (socket) {
-  console.log("On connection...");
+io.on('connection', socketioJwt.authorize({
+    secret: JSON.parse(fs.readFileSync("key.json")).secret,
+    timeout: 15000 // 15 seconds to send the authentication message
+  })).on('authenticated', function(socket) {
+    //this socket is authenticated, we are good to handle more events from it.
+    console.log('hello! ' + socket.decoded_token.name);
+});
+// io.on('connection', function (socket) {
+  // console.log("On connection...");
   // socket.emit('message', {content: 'somemessage'});
   // socket.on('received', function(data) {
   //   console.log("Received this data: " + data);
@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
   // socket.on('my other event', function (data) {
   //   console.log(data);
   // });
-});
+// });
 // loginApp.set('socketio', io);
 
 console.log('Message RESTful API server started on: ' + port);

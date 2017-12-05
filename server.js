@@ -46,19 +46,32 @@ loginApp.listen(port); // http://127.0.0.1:8080
 // Setup socket
 var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
 var io = require('socket.io')(socketServer)
+var clients = [];
 io.on('connection', socketioJwt.authorize({
     secret: JSON.parse(fs.readFileSync("key.json")).secret,
     timeout: 15000 // 15 seconds to send the authentication message
   })).on('authenticated', function(socket) {
     //this socket is authenticated, we are good to handle more events from it.
     console.log(Date.now() + ' :: User has connected ::  ' + socket.decoded_token.name);
-    socket.emit('response', (socket.decoded_token.name + " has connected."));
-    socket.on('message', function (data) {
-      socket.emit('response', (socket.decoded_token.name + data));
+    clients.push(socket);
+    clients.forEach(function(clientSocket) {
+      clientSocket.emit('response', (socket.decoded_token.name + " has connected."));
     });
-    io.on('disconnect', function (data) {
-      socket.emit('response', (socket.decoded_token.name + " has disconnected."));
+    // socket.emit('response', (socket.decoded_token.name + " has connected."));
+    socket.on('message', function (data) {
+      clients.forEach(function(clientSocket) {
+        clientSocket.emit('response', (socket.decoded_token.name + data));
+      });
+      // socket.emit('response', (socket.decoded_token.name + data));
+    });
+    socket.on('disconnect', function (data) {
+      clients.forEach(function(clientSocket) {
+        clientSocket.emit('response', (socket.decoded_token.name + " has disconnected."));
+      });
+      // socket.emit('response', (socket.decoded_token.name + " has disconnected."));
       console.log(Date.now() + ' :: User has disconnected ::  ' + socket.decoded_token.name);
+      var i = clients.indexOf(socket);
+      clients.splice(i, 1);
     });
 });
 // io.on('connection', function (socket) {

@@ -4,7 +4,7 @@
 \red0\green0\blue0;\red0\green0\blue0;\red230\green230\blue230;}
 {\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c66500\c5200\c56900;
 \cssrgb\c0\c0\c0;\csgray\c0\c0;\csgray\c92143;}
-\margl1440\margr1440\vieww14400\viewh16580\viewkind1
+\margl1440\margr1440\vieww14700\viewh16580\viewkind1
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
 
 \f0\b\fs28 \cf0 \ul \ulc0 \
@@ -208,7 +208,7 @@ API directory location in the ubuntu user directory:\
 \b0 \
 \
 	
-\b Non-authenticated Calls:
+\b Non-socket calls:
 \b0 \
 	/login1/\
 		POST\
@@ -244,35 +244,22 @@ API directory location in the ubuntu user directory:\
 \i0 \
 				
 \i name: String\
-				password: String
-\i0 \
+				password: String\
+	/users/\
+		
+\i0 DELETE\
+			Removes all users.\
 \
 	
-\b Authenticated Calls:\
+\b Websocket calls:\
 
-\b0 	- A valid JWT token must be included in the header for key '
-\i x-access-token
-\i0 ' i 	order to access the following API calls.\
+\b0 	- To access the websocket, a valid JWT must be obtained from the login route.\
 	/messages/\
-		POST\
-			Keys\
-				
-\i content\
-				upload_date
-\i0 \
-		GET\
-			
-\i Returns
-\i0  - All messages uploaded as JSON with the following\
-			structure:\
-				
-\i _id: String
-\i0 \
-				
-\i sender: String\
-				content: String\
-				upload_date: Date
-\i0 \
+		WEBSOCKET\
+			Immediately after connection, an 'authenticate' message must be 			emitted to the websocket before any other message gets sent in 			order to continue in the protocol. The server will send 'receive' 			messages and the client should send 'message' messages.\
+\
+\
+	[PROTOCOL DESIGN HERE]\
 \
 \
 
@@ -429,6 +416,7 @@ Nginx directs all '/messages' traffic to the node server since node listens on p
 \
 		sudo service nginx restart\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf5 \cb6 	
 \b\fs32 Logging Access
 \b0\fs24 \

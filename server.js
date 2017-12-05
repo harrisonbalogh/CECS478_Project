@@ -51,7 +51,10 @@ io.on('connection', socketioJwt.authorize({
     timeout: 15000 // 15 seconds to send the authentication message
   })).on('authenticated', function(socket) {
     //this socket is authenticated, we are good to handle more events from it.
-    console.log('hello! ' + socket.decoded_token.name);
+    console.log(Date.now() + ' :: User has connected ::  ' + socket.decoded_token.name);
+    socket.on('message', function (data) {
+      socket.emit('response', {content: data});
+    });
 });
 // io.on('connection', function (socket) {
   // console.log("On connection...");

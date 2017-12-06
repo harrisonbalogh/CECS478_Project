@@ -92,6 +92,7 @@ io.on('connection', socketioJwt.authorize({
             }
           });
           if (socket.waitingFor && !socket.partner) {
+            console.log("This person has a partner? : " + socket.partner + " or is waiting for" + socket.waitingFor);
             socket.emit('requestFailed', "User is not online.");
           }
         } else {

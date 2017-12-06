@@ -69,10 +69,10 @@ io.on('connection', socketioJwt.authorize({
         if (err) socket.emit('error', "");
         if (found != '') {
           // Found that user!
-          console.log(socket.decoded_token.name + " is searching for " + found);
+          console.log(socket.decoded_token.name + " is searching for " + found.name + ", " + found.challenge);
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
-                receiverSocket.decoded_token.name == found) {
+                receiverSocket.decoded_token.name == data.name) {
                   if (receiverSocket.isWaitingFor == socket.decoded_token.name) {
                     // That user was already waiting for the same user to respond
                     // So we can initiate the chat.
@@ -81,13 +81,13 @@ io.on('connection', socketioJwt.authorize({
                     chats.push({a: socket, b: receiverSocket});
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
-                    console.log(socket.decoded_token.name + " is chatting with " + found);
+                    console.log(socket.decoded_token.name + " is chatting with " + data.name);
                   } else {
                     // Inform this user that someone wants to chat.
                     receiverSocket.emit('request', socket.decoded_token.name);
                     socket.emit('requestSuccess', "waiting");
-                    socket.isWaitingFor = found
-                    console.log(socket.decoded_token.name + " is waiting for " + found);
+                    socket.isWaitingFor = data.name
+                    console.log(socket.decoded_token.name + " is waiting for " + data.name);
                   }
             }
           });
@@ -108,7 +108,7 @@ io.on('connection', socketioJwt.authorize({
         if (found != '') {
           // Found that user!
           clients.forEach(function(receiverSocket) {
-            if (receiverSocket.decoded_token.name == found &&
+            if (receiverSocket.decoded_token.name == found.name &&
                 receiverSocket.isWaitingFor == socket.decoded_token.name) {
               receiverSocket.emit('decline', socket.decoded_token.name);
               receiverSocket.isWaitingFor = "";

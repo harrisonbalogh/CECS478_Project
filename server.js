@@ -50,7 +50,6 @@ loginApp.listen(port); // http://127.0.0.1:8080
 var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
 var io = require('socket.io')(socketServer)
 var clients = [];
-var chats = [];
 
 io.on('connection', socketioJwt.authorize({
     secret: JSON.parse(fs.readFileSync("key.json")).secret,
@@ -58,14 +57,14 @@ io.on('connection', socketioJwt.authorize({
   })).on('authenticated', function(socket) {
     // Socket Authenticated.
     console.log(Date.now() + ' :: User has connected ::  ' + socket.decoded_token.name);
-    socket.isWaitingFor = "";
+    socket.waitingFor = undefined;
     socket.partner = undefined;
     socket.isExchanged = false;
     clients.push(socket);
 
     // Listen for requests to start a chat.
     socket.on('request', function (data) {
-      socket.isWaitingFor = "";
+      socket.waitingFor = undefined;
       User.findOne({name: data.name}, function(err, found) {
         if (err) socket.emit('error', "");
         if (found) {
@@ -74,25 +73,25 @@ io.on('connection', socketioJwt.authorize({
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
                 receiverSocket.decoded_token.name == data.name) {
-                  if (receiverSocket.isWaitingFor == socket.decoded_token.name) {
+                  if (receiverSocket.waitingFor == socket) {
                     // That user was already waiting for the same user to respond
                     // So we can initiate the chat.
                     socket.partner = receiverSocket;
                     receiverSocket.partner = socket;
-                    chats.push({a: socket, b: receiverSocket});
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
                     console.log(socket.decoded_token.name + " is chatting with " + data.name);
+                    socket.waitingFor = undefined;
                   } else {
                     // Inform this user that someone wants to chat.
                     receiverSocket.emit('request', socket.decoded_token.name);
                     socket.emit('requestSuccess', "waiting");
-                    socket.isWaitingFor = data.name
+                    socket.waitingFor = receiverSocket;
                     console.log(socket.decoded_token.name + " is waiting for " + data.name);
                   }
             }
           });
-          if (socket.isWaitingFor == "" && !socket.partner) {
+          if (socket.waitingFor && !socket.partner) {
             socket.emit('requestFailed', "User is not online.");
           }
         } else {
@@ -110,9 +109,9 @@ io.on('connection', socketioJwt.authorize({
           // Found that user!
           clients.forEach(function(receiverSocket) {
             if (receiverSocket.decoded_token.name == found.name &&
-                receiverSocket.isWaitingFor == socket.decoded_token.name) {
+                receiverSocket.waitingFor == socket) {
               receiverSocket.emit('decline', socket.decoded_token.name);
-              receiverSocket.isWaitingFor = "";
+              receiverSocket.waitingFor = undefined;
             }
           });
         } // else: didn't find that user
@@ -121,7 +120,7 @@ io.on('connection', socketioJwt.authorize({
 
     // Listen for cancels to start a chat.
     socket.on('cancel', function (data) {
-      socket.isWaitingFor = "";
+      socket.waitingFor = undefined;
       User.findOne({name: data.name}, function(err, found) {
         if (err) socket.emit('error', "");
         if (found) {
@@ -137,20 +136,13 @@ io.on('connection', socketioJwt.authorize({
 
     // Listen for stops to a chat.
     socket.on('stop', function (data) {
-      chats.forEach(function(chat) {
-        if (chat.a == socket) {
-          chat.b.emit('stop', "");
-        } else if (chat.b == socket) {
-          chat.a.emit('stop', "");
-        }
-        chat.a.partner = undefined;
-        chat.a.isExchanged = false;
-        chat.b.partner = undefined;
-        chat.b.isExchanged = false;
-        var i = chats.indexOf(chat);
-        chats.splice(i, 1);
-        return;
-      });
+      if (socket.partner) {
+        socket.partner.emit('stop', "");
+        socket.partner.partner = undefined;
+        socket.partner.isExchanged = false;
+        socket.partner = undefined;
+        socket.isExchanged = false;
+      }
     });
 
     socket.on('exchange', function (data) {
@@ -173,31 +165,14 @@ io.on('connection', socketioJwt.authorize({
     // Listen for disconnections
     socket.on('disconnect', function (data) {
       if (socket.partner) {
-        chats.forEach(function(chat) {
-          if (chat.a == socket) {
-            chat.b.emit('stop', "");
-          } else if (chat.b == socket) {
-            chat.a.emit('stop', "");
-          }
-          chat.a.partner = undefined;
-          chat.b.partner = undefined;
-          var i = chats.indexOf(chat);
-          chats.splice(i, 1);
-          return;
-        });
+        socket.partner.emit('stop', "");
+        socket.partner.partner = undefined;
+        socket.partner.isExchanged = false;
+        socket.partner = undefined;
+        socket.isExchanged = false;
       } else
-      if (socket.isWaitingFor != "") {
-        // They are waiting for a response
-        User.findOne({name: socket.isWaitingFor}, function(err, found) {
-          if (found) {
-            // Found that user! Inform them that the user has canceled request.
-            clients.forEach(function(receiverSocket) {
-              if (receiverSocket.decoded_token.name == found.name) {
-                receiverSocket.emit('cancel', socket.decoded_token.name);
-              }
-            });
-          }
-        });
+      if (socket.waitingFor) {
+        socket.waitingFor.emit('cancel', socket.decoded_token.name);
       }
       console.log(Date.now() + ' :: User has disconnected ::  ' + socket.decoded_token.name);
       var i = clients.indexOf(socket);

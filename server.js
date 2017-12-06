@@ -81,7 +81,6 @@ io.on('connection', socketioJwt.authorize({
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
                     console.log(socket.decoded_token.name + " is chatting with " + data.name);
-                    socket.waitingFor = undefined;
                   } else {
                     // Inform this user that someone wants to chat.
                     receiverSocket.emit('request', socket.decoded_token.name);
@@ -89,6 +88,7 @@ io.on('connection', socketioJwt.authorize({
                     socket.waitingFor = receiverSocket;
                     console.log(socket.decoded_token.name + " is waiting for " + data.name);
                   }
+                  break;
             }
           });
           if (socket.waitingFor && !socket.partner) {

@@ -70,6 +70,7 @@ io.on('connection', socketioJwt.authorize({
         if (found) {
           // Found that user!
           console.log(socket.decoded_token.name + " is searching for " + found.name);
+          var clientIsOffline = true;
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
                 receiverSocket.decoded_token.name == data.name) {
@@ -78,6 +79,8 @@ io.on('connection', socketioJwt.authorize({
                     // So we can initiate the chat.
                     socket.partner = receiverSocket;
                     receiverSocket.partner = socket;
+                    socket.waitingFor = undefined;
+                    receiverSocket.waitingFor = undefined;
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
                     console.log(socket.decoded_token.name + " is chatting with " + data.name);
@@ -88,11 +91,11 @@ io.on('connection', socketioJwt.authorize({
                     socket.waitingFor = receiverSocket;
                     console.log(socket.decoded_token.name + " is waiting for " + data.name);
                   }
+                  clientIsOffline = false;
                   return;
             }
           });
-          if (socket.waitingFor && !socket.partner) {
-            console.log("This person has a partner? : " + socket.partner + " or is waiting for" + socket.waitingFor);
+          if (clientIsOffline) {
             socket.emit('requestFailed', "User is not online.");
           }
         } else {

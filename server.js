@@ -59,7 +59,8 @@ io.on('connection', socketioJwt.authorize({
     // Socket Authenticated.
     console.log(Date.now() + ' :: User has connected ::  ' + socket.decoded_token.name);
     socket.isWaitingFor = "";
-    socket.isChatting = false;
+    socket.partner = undefined;
+    socket.isExchanged = false;
     clients.push(socket);
 
     // Listen for requests to start a chat.
@@ -69,15 +70,15 @@ io.on('connection', socketioJwt.authorize({
         if (err) socket.emit('error', "");
         if (found) {
           // Found that user!
-          console.log(socket.decoded_token.name + " is searching for " + found.name + ", " + found.challenge);
+          console.log(socket.decoded_token.name + " is searching for " + found.name);
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
                 receiverSocket.decoded_token.name == data.name) {
                   if (receiverSocket.isWaitingFor == socket.decoded_token.name) {
                     // That user was already waiting for the same user to respond
                     // So we can initiate the chat.
-                    socket.isChatting = true;
-                    receiverSocket.isChatting = true;
+                    socket.partner = receiverSocket;
+                    receiverSocket.partner = socket;
                     chats.push({a: socket, b: receiverSocket});
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
@@ -91,7 +92,7 @@ io.on('connection', socketioJwt.authorize({
                   }
             }
           });
-          if (socket.isWaitingFor == "" && !socket.isChatting) {
+          if (socket.isWaitingFor == "" && !socket.partner) {
             socket.emit('requestFailed', "User is not online.");
           }
         } else {
@@ -126,7 +127,7 @@ io.on('connection', socketioJwt.authorize({
         if (found) {
           // Found that user!
           clients.forEach(function(receiverSocket) {
-            if (receiverSocket.decoded_token.name == found) {
+            if (receiverSocket.decoded_token.name == found.name) {
               receiverSocket.emit('cancel', socket.decoded_token.name);
             }
           });
@@ -142,32 +143,39 @@ io.on('connection', socketioJwt.authorize({
         } else if (chat.b == socket) {
           chat.a.emit('stop', "");
         }
-        chat.a.isChatting = false;
-        chat.b.isChatting = false;
+        chat.a.partner = undefined;
+        chat.a.isExchanged = false;
+        chat.b.partner = undefined;
+        chat.b.isExchanged = false;
         var i = chats.indexOf(chat);
         chats.splice(i, 1);
         return;
       });
     });
 
+    socket.on('exchange', function (data) {
+      // exchange keys / validate
+      socket.isExchanged = true;
+    });
+
     // Listen for messages sent in chats
     socket.on('message', function (data) {
-      clients.forEach(function(clientSocket) {
-        clientSocket.emit('response', (socket.decoded_token.name + ": " + data));
-      });
+      if (socket.partner && socket.isExchanged) {
+        socket.partner.emit('message', data);
+      }
     });
 
     // Listen for disconnections
     socket.on('disconnect', function (data) {
-      if (socket.isChatting) {
+      if (socket.partner) {
         chats.forEach(function(chat) {
           if (chat.a == socket) {
             chat.b.emit('stop', "");
           } else if (chat.b == socket) {
             chat.a.emit('stop', "");
           }
-          chat.a.isChatting = false;
-          chat.b.isChatting = false;
+          chat.a.partner = undefined;
+          chat.b.partner = undefined;
           var i = chats.indexOf(chat);
           chats.splice(i, 1);
           return;
@@ -179,7 +187,7 @@ io.on('connection', socketioJwt.authorize({
           if (found) {
             // Found that user! Inform them that the user has canceled request.
             clients.forEach(function(receiverSocket) {
-              if (receiverSocket.decoded_token.name == found) {
+              if (receiverSocket.decoded_token.name == found.name) {
                 receiverSocket.emit('cancel', socket.decoded_token.name);
               }
             });

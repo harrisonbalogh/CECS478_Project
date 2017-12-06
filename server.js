@@ -89,10 +89,10 @@ io.on('connection', socketioJwt.authorize({
                     console.log(socket.decoded_token.name + " is waiting for " + found.name);
                   }
             }
-            if (socket.isWaitingFor == "" && !socket.isChatting) {
-              socket.emit('requestFailed', "User is not online.");
-            }
           });
+          if (socket.isWaitingFor == "" && !socket.isChatting) {
+            socket.emit('requestFailed', "User is not online.");
+          }
         } else {
           // Didn't find that user...
           socket.emit('requestFailed', "User not found.");

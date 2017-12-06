@@ -164,7 +164,9 @@ io.on('connection', socketioJwt.authorize({
     // Listen for messages sent in chats
     socket.on('message', function (data) {
       if (socket.partner && socket.isExchanged) {
-        socket.partner.emit('message', data);
+        var msg = socket.decoded_token.name + ": " + data
+        socket.partner.emit('message', msg);
+        socket.emit('message', msg);
       }
     });
 

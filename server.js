@@ -69,10 +69,10 @@ io.on('connection', socketioJwt.authorize({
         if (err) socket.emit('error', "");
         if (found != '') {
           // Found that user!
-          console.log(socket.decoded_token.name + " is searching for " + found.name);
+          console.log(socket.decoded_token.name + " is searching for " + found);
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
-                receiverSocket.decoded_token.name == found.name) {
+                receiverSocket.decoded_token.name == found) {
                   if (receiverSocket.isWaitingFor == socket.decoded_token.name) {
                     // That user was already waiting for the same user to respond
                     // So we can initiate the chat.
@@ -81,13 +81,13 @@ io.on('connection', socketioJwt.authorize({
                     chats.push({a: socket, b: receiverSocket});
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
-                    console.log(socket.decoded_token.name + " is chatting with " + found.name);
+                    console.log(socket.decoded_token.name + " is chatting with " + found);
                   } else {
                     // Inform this user that someone wants to chat.
                     receiverSocket.emit('request', socket.decoded_token.name);
                     socket.emit('requestSuccess', "waiting");
-                    socket.isWaitingFor = found.name
-                    console.log(socket.decoded_token.name + " is waiting for " + found.name);
+                    socket.isWaitingFor = found
+                    console.log(socket.decoded_token.name + " is waiting for " + found);
                   }
             }
           });
@@ -108,7 +108,7 @@ io.on('connection', socketioJwt.authorize({
         if (found != '') {
           // Found that user!
           clients.forEach(function(receiverSocket) {
-            if (receiverSocket.decoded_token.name == found.name &&
+            if (receiverSocket.decoded_token.name == found &&
                 receiverSocket.isWaitingFor == socket.decoded_token.name) {
               receiverSocket.emit('decline', socket.decoded_token.name);
               receiverSocket.isWaitingFor = "";
@@ -126,7 +126,7 @@ io.on('connection', socketioJwt.authorize({
         if (found != '') {
           // Found that user!
           clients.forEach(function(receiverSocket) {
-            if (receiverSocket.decoded_token.name == found.name) {
+            if (receiverSocket.decoded_token.name == found) {
               receiverSocket.emit('cancel', socket.decoded_token.name);
             }
           });
@@ -179,7 +179,7 @@ io.on('connection', socketioJwt.authorize({
           if (found != '') {
             // Found that user! Inform them that the user has canceled request.
             clients.forEach(function(receiverSocket) {
-              if (receiverSocket.decoded_token.name == found.name) {
+              if (receiverSocket.decoded_token.name == found) {
                 receiverSocket.emit('cancel', socket.decoded_token.name);
               }
             });

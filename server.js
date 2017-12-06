@@ -154,8 +154,11 @@ io.on('connection', socketioJwt.authorize({
     });
 
     socket.on('exchange', function (data) {
-      // exchange keys / validate
-      socket.isExchanged = true;
+      // exchange keys / validate TODO:
+      if (socket.partner) {
+        socket.isExchanged = true;
+        socket.partner.emit('exchange', data.key);
+      }
     });
 
     // Listen for messages sent in chats

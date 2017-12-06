@@ -69,6 +69,7 @@ io.on('connection', socketioJwt.authorize({
         if (err) socket.emit('error', "");
         if (found != '') {
           // Found that user!
+          console.log(socket.decoded_token.name + " is searching for " + found.name);
           clients.forEach(function(receiverSocket) {
             if (socket.decoded_token.name != receiverSocket.decoded_token.name &&
                 receiverSocket.decoded_token.name == found.name) {

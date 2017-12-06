@@ -65,9 +65,9 @@ io.on('connection', socketioJwt.authorize({
     // Listen for requests to start a chat.
     socket.on('request', function (data) {
       socket.isWaitingFor = "";
-      User.find({name: data.name}, function(err, found) {
+      User.findOne({name: data.name}, function(err, found) {
         if (err) socket.emit('error', "");
-        if (found != '') {
+        if (found) {
           // Found that user!
           console.log(socket.decoded_token.name + " is searching for " + found.name + ", " + found.challenge);
           clients.forEach(function(receiverSocket) {
@@ -103,9 +103,9 @@ io.on('connection', socketioJwt.authorize({
 
     // Listen for declines to start a chat.
     socket.on('decline', function (data) {
-      User.find({name: data.name}, function(err, found) {
+      User.findOne({name: data.name}, function(err, found) {
         if (err) socket.emit('error', "");
-        if (found != '') {
+        if (found) {
           // Found that user!
           clients.forEach(function(receiverSocket) {
             if (receiverSocket.decoded_token.name == found.name &&
@@ -121,9 +121,9 @@ io.on('connection', socketioJwt.authorize({
     // Listen for cancels to start a chat.
     socket.on('cancel', function (data) {
       socket.isWaitingFor = "";
-      User.find({name: data.name}, function(err, found) {
+      User.findOne({name: data.name}, function(err, found) {
         if (err) socket.emit('error', "");
-        if (found != '') {
+        if (found) {
           // Found that user!
           clients.forEach(function(receiverSocket) {
             if (receiverSocket.decoded_token.name == found) {
@@ -175,8 +175,8 @@ io.on('connection', socketioJwt.authorize({
       } else
       if (socket.isWaitingFor != "") {
         // They are waiting for a response
-        User.find({name: socket.isWaitingFor}, function(err, found) {
-          if (found != '') {
+        User.findOne({name: socket.isWaitingFor}, function(err, found) {
+          if (found) {
             // Found that user! Inform them that the user has canceled request.
             clients.forEach(function(receiverSocket) {
               if (receiverSocket.decoded_token.name == found) {

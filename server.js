@@ -80,14 +80,16 @@ io.on('connection', socketioJwt.authorize({
                     chats.push({a: socket, b: receiverSocket});
                     socket.emit('chatting', receiverSocket.decoded_token.name);
                     receiverSocket.emit('chatting', socket.decoded_token.name);
+                    console.log(socket.decoded_token.name + " is chatting with " + found.name);
                   } else {
                     // Inform this user that someone wants to chat.
                     receiverSocket.emit('request', socket.decoded_token.name);
                     socket.emit('requestSuccess', "waiting");
                     socket.isWaitingFor = found.name
+                    console.log(socket.decoded_token.name + " is waiting for " + found.name);
                   }
             }
-            if (socket.isWaitingFor == "") {
+            if (socket.isWaitingFor == "" && !socket.isChatting) {
               socket.emit('requestFailed', "User is not online.");
             }
           });

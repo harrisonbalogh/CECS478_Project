@@ -88,7 +88,7 @@ io.on('connection', socketioJwt.authorize({
                     socket.waitingFor = receiverSocket;
                     console.log(socket.decoded_token.name + " is waiting for " + data.name);
                   }
-                  break;
+                  return;
             }
           });
           if (socket.waitingFor && !socket.partner) {

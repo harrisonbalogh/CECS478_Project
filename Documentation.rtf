@@ -1,10 +1,13 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf100
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fnil\fcharset0 HelveticaNeue;
+}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red170\green13\blue145;
-\red0\green0\blue0;\red0\green0\blue0;\red230\green230\blue230;}
+\red0\green0\blue0;\red0\green0\blue0;\red230\green230\blue230;\red38\green38\blue38;\red14\green115\blue192;
+}
 {\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c66500\c5200\c56900;
-\cssrgb\c0\c0\c0;\csgray\c0\c0;\csgray\c92143;}
-\margl1440\margr1440\vieww14700\viewh16580\viewkind1
+\cssrgb\c0\c0\c0;\csgray\c0\c0;\csgray\c92143;\cssrgb\c20000\c20000\c20000;\cssrgb\c0\c53333\c80000;
+}
+\margl1440\margr1440\vieww14400\viewh16580\viewkind1
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
 
 \f0\b\fs28 \cf0 \ul \ulc0 \
@@ -44,7 +47,9 @@ Contents of this File\
 	\'95 Changing Config File\
 	\'95 Logging Access\
 \
-\
+\'95 Encrypting with Apple Libraries\
+	\'95 Encrypting\
+	\'95 Signing\
 \
 \
 \
@@ -440,4 +445,36 @@ Nginx directs all '/messages' traffic to the node server since node listens on p
 	This will put connection logs into the following file location:\
 \
 		/var/log/nginx/nginx-acces.log\
-}
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b\fs32 \cf0 \cb1 \CocoaLigature1 Encrypting with Apple Libraries
+\b0\fs24 \cf5 \cb6 \CocoaLigature0 \
+\
+	
+\b Encrypting\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b0 \cf5 \
+	Apple's Security library is a robust API for performing various security operations. 	Encrypting information happens through the following call:\
+\
+		SecKeyCreateEncryptedData(_:_:_:_:)\
+\
+If the algorithm specified is AES, for example, you would still provide a private RSA key but the library would: generate an AES key, encrypt the data with the AES key, then encrypt the AES key with the RSA key and package this together as data that can be sent over a network.\
+From Apple Security framework documentation:\
+\pard\pardeftab720\partightenfactor0
+\cf5 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs28 \cf8 \cb1 \expnd0\expndtw0\kerning0
+\CocoaLigature1 On the encryption side, instead of simply padding and encoding the given block of data with the key, the {\field{\*\fldinst{HYPERLINK "apple-reference-documentation://hsXmIuv5gn"}}{\fldrslt 
+\f0 \cf9 SecKeyCreateEncryptedData(_:_:_:_:)}} function first generates a random Advanced Encryption Standard (AES) session key. It uses this key to encrypt the input data, and then RSA encrypts the AES key using the input public key you provide. It finally assembles the RSA encrypted session key, the AES encrypted data, and a 16-byte AES-GCM tag into a block of data that it returns to you.
+\f0\fs24 \cf5 \cb6 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf5 \
+
+\b 	Signing
+\b0 \
+\
+	}

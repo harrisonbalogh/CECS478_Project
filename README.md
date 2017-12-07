@@ -159,7 +159,7 @@ Immediately after connection, an 'authenticate' message must be emitted to the w
 
 ### Messenger Protocol
 
-[image]
+![Protocol Diagram](https://github.com/harrisonbalogh/Whisper_Server/blob/master/MessengerProtocol@2x.png)
 
 ### Git Tips
 
@@ -307,6 +307,8 @@ From Apple Security framework documentation:
 ##### SSL
 
 All connections to the server are directed through the HTTPS protocol. Our SSL certificate is distributed through LetsEncrypt and generated through LetsEncrypt's CertBot. SSLLabs.com gives our server the following grade...
+
+![Protocol Diagram](https://github.com/harrisonbalogh/Whisper_Server/blob/master/SSLGrade@2x.jpg)
 
 ##### Registration
 

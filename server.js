@@ -153,6 +153,7 @@ io.on('connection', socketioJwt.authorize({
       // exchange keys / validate TODO:
       if (socket.partner) {
         socket.isExchanged = true;
+        console.log("A key is being exchange: " + data.key)
         socket.partner.emit('exchange', data.key);
       }
     });

@@ -12,7 +12,7 @@
 - [Server Details](#server-details)
 - [Password Policies](#password-policies)
 - [Database Model](#database-model)
-- [Messenger API]](#messenger-api)
+- [Messenger API](#messenger-api)
 - [Git Tips](#git-tips)
 - [Swift Development Tips](#swift-development-tips)
 - [TLS/SSL](#tls/ssl)

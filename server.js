@@ -153,7 +153,6 @@ io.on('connection', socketioJwt.authorize({
       // exchange keys / validate TODO:
       if (socket.partner) {
         socket.isExchanged = true;
-        console.log("A key is being exchange: " + data.key)
         socket.partner.emit('exchange', data.key);
       }
     });
@@ -161,8 +160,7 @@ io.on('connection', socketioJwt.authorize({
     // Listen for messages sent in chats
     socket.on('message', function (data) {
       if (socket.partner && socket.isExchanged) {
-        var msg = socket.decoded_token.name + ": " + data
-        socket.partner.emit('message', msg);
+        socket.partner.emit('message', data.cipher);
       }
     });
 

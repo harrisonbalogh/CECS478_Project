@@ -1,7 +1,8 @@
 var express = require('express'),
   loginApp = express(),
   messageApp = express(),
-  port = process.env.PORT || 8080,
+  loginPort = process.env.PORT || 8080,
+  websocketPort = 10001,
   mongoose = require('mongoose'),
   Message = require('./api/models/messengerModel'), //created model loading here
   User = require('./api/models/userModel'),
@@ -33,8 +34,8 @@ loginApp.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 mongoose.connect(config.message_database);
 // Routes
-var middleware = require('./api/middleware');
-var messengerRoutes = require('./api/routes/messengerRoutes');
+// var middleware = require('./api/middleware');
+// var messengerRoutes = require('./api/routes/messengerRoutes');
 var userRoutes = require('./api/routes/userRoutes');
 // Register routes. Order that the middleware gets loaded is important.
 userRoutes(loginApp);
@@ -43,11 +44,10 @@ userRoutes(loginApp);
 // messengerRoutes(loginApp);
 // Nginx is acting as a reverse proxy with HTTPS setup and redicts from HTTP.
 // Nginx listens locally on the server to port 8080 responding to http://127.0.0.1
-loginApp.listen(port); // http://127.0.0.1:8080
+loginApp.listen(loginPort); // http://127.0.0.1:8080
 
 // =============== Websocket Server (10001) ===============
-// Setup socket
-var socketServer = messageApp.listen(10001); // http://127.0.0.1:10001
+var socketServer = messageApp.listen(websocketPort); // http://127.0.0.1:10001
 var io = require('socket.io')(socketServer)
 var clients = [];
 
@@ -162,7 +162,6 @@ io.on('connection', socketioJwt.authorize({
       if (socket.partner && socket.isExchanged) {
         var msg = socket.decoded_token.name + ": " + data
         socket.partner.emit('message', msg);
-        socket.emit('message', msg);
       }
     });
 
@@ -184,4 +183,4 @@ io.on('connection', socketioJwt.authorize({
     });
 });
 
-console.log('Message RESTful API server started on: ' + port);
+console.log('Message RESTful API server started on: ' + loginPort);

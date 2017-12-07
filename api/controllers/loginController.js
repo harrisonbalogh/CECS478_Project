@@ -63,10 +63,10 @@ exports.login2 = function(req, res) {
 
 exports.register = function(req, res) {
 
-  User.find({name: req.body.name}, function(err, found) {
+  User.findOne({name: req.body.name}, function(err, found) {
     if (err)
       res.json({ success: false });
-    if (found == '') {
+    if (!found) {
       // Apply password policies
       if (req.body.password.length >= 8) {
 

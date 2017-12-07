@@ -1,32 +1,32 @@
 
 ## Messenger478 **Server** Repository
 ##### See client repository [here](https://github.com/harrisonbalogh/Messenger478).
-––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 #### Contents
 
-- Connecting to Server
-- Server Workflow
-	- Updating Node.js Packages
-	- Development Machines
-- JWT
-- Server Details
-- Password Policies
-- Database Model
-- Messenger API
-- Git Tips
-- Swift Development Tips
-- TLS/SSL
-- Websockets
-- Nginx
-	- Reverse Proxy Setup
-	- Changing Config File
-	- Logging Access
-• Encrypting with Apple Libraries
-	- Encrypting
-• Security Layers
+- [Connecting to Server](#connecting-to-server)
+- [Server Workflow](#server-workflow)
+	- [Updating Node.js Packages](#updating-node.js-packages)
+	- [Development Machines](#development-machines)
+- [JWT](#jwt)
+- [Server Details](#server-details)
+- [Password Policies](#password-policies)
+- [Database Model](#database-model)
+- [Messenger API]](#messenger-api)
+- [Git Tips](#git-tips)
+- [Swift Development Tips](#swift-development-tips)
+- [TLS/SSL](#tls/ssl)
+- [Websockets](#websockets)
+- [Nginx](#nginx)
+	- [Reverse Proxy Setup](#reverse-proxy-setup)
+	- [Changing Config File](#changing-config-file)
+	- [Logging Access](#logging-access)
+• [Encrypting with Apple Libraries](#encrypting-with-apple-libraries)
+	- [Encrypting](#encrypting)
+• [Security Layers](#security-layers)
 
 
-––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 ### Connecting to Server
 
 The server (AWS EC2 instance) has the key pairs of both development machines. Connecting to the server requires the usage of the following command in a terminal:

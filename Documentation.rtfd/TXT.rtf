@@ -7,7 +7,7 @@
 {\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c100000\c100000;\csgenericrgb\c66500\c5200\c56900;
 \cssrgb\c0\c0\c0;\csgray\c92143;\csgray\c0\c0;\cssrgb\c20000\c20000\c20000;\cssrgb\c0\c53333\c80000;
 }
-\margl1440\margr1440\vieww14400\viewh16580\viewkind1
+\margl1440\margr1440\vieww15300\viewh16580\viewkind1
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
 
 \f0\b\fs28 \cf0 \ul \ulc0 \
@@ -50,8 +50,8 @@ Contents of this File\
 \
 \'95 Encrypting with Apple Libraries\
 	\'95 Encrypting\
-	\'95 Signing\
 \
+\'95 Security Layers\
 \
 \
 \
@@ -132,7 +132,6 @@ The lines argument can be decreased, increased, or omitted. \
 \
 	The location of server.js is located in the server git repository. To test API calls, 	instead of using https://hm478project.me/[API CALL]/, you would use http://	localhost:8080/[API CALL]/.\
 	\
-\
 
 \b\fs32 JWT
 \b0\fs24 \
@@ -274,8 +273,6 @@ API directory location in the ubuntu user directory:\
 		WEBSOCKET\
 			Immediately after connection, an 'authenticate' message must be 			emitted to the websocket before any other message gets sent in 			order to continue in the protocol. See the following section for the\
 			various protocols in the client:client and client:server interactions.\
-\
-\
 \
 \
 \
@@ -502,19 +499,16 @@ Nginx directs all '/messages' traffic to the node server since node listens on p
 \
 \
 \
-\
-\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\b\fs32 \cf0 \cb1 \CocoaLigature1 Encrypting with Apple Libraries
+\b\fs32 \cf0 \cb1 \CocoaLigature1 Encrypting with Apple Libraries\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
 \b0\fs24 \cf5 \cb7 \CocoaLigature0 \
-\
 	
-\b\fs32 Encrypting
-\fs24 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\b\fs32 Encrypting\
 
-\b0 \cf5 \
+\b0\fs24 \
 	Apple's Security library is a robust API for performing various security operations. 	Encrypting information happens through the following call:\
 \
 		SecKeyCreateEncryptedData(_:_:_:_:)\
@@ -522,20 +516,79 @@ Nginx directs all '/messages' traffic to the node server since node listens on p
 	If the algorithm specified is AES, for example, you would still provide a private 	RSA key but the library would: generate an AES key, encrypt the data with the 	AES key, then encrypt the AES key with the RSA key and package this together 	as data that can be sent over a network.\
 \
 	From Apple Security framework documentation:\
-\pard\pardeftab720\partightenfactor0
-\cf5 \
+\
 \pard\pardeftab720\partightenfactor0
 
 \f3\fs28 \cf8 \cb6 \expnd0\expndtw0\kerning0
 \CocoaLigature1 	On the encryption side, instead of simply padding and encoding the 		given block of data with the key, the 							{\field{\*\fldinst{HYPERLINK "apple-reference-documentation://hsXmIuv5gn"}}{\fldrslt 
-\f0 \cf9 SecKeyCreateEncryptedData(_:_:_:_:)}} function first generates a 		random Advanced Encryption Standard (AES) session key. It uses 		this key to encrypt the input data, and then RSA encrypts the AES 		key using the input public key you provide. It finally assembles the 		RSA encrypted session key, the AES encrypted data, and a 16-byte 		AES-GCM tag into a block of data that it returns to you.
-\f0\fs24 \cf5 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf5 \cb7 \
+\f0 \cf9 SecKeyCreateEncryptedData(_:_:_:_:)}} function first generates a 		random Advanced Encryption Standard (AES) session key. It uses 		this key to encrypt the input data, and then RSA encrypts the AES 		key using the input public key you provide. It finally assembles the 		RSA encrypted session key, the AES encrypted data, and a 16-byte 		AES-GCM tag into a block of data that it returns to you.\
+
+\f0\fs24 \cf5 \cb7 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\b \cf5 	
-\fs32 Signing
+\b\fs32 \cf5 Security Layers\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b0\fs24 \cf5 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b\fs32 \cf5 	SSL\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b0\fs24 \cf5 \
+	All connections to the server are directed through the HTTPS protocol. Our SSL 	certificate is distributed through LetsEncrypt and generated through 		LetsEncrypt's CertBot. 
+\i SSLLabs.com
+\i0  gives our server the following grade...\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+\cf0 \cb1 \CocoaLigature1 {{\NeXTGraphic SSLGrade_small@2x.jpg \width9000 \height6350 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+	
+\b\fs32 Registration
+\b0\fs24 \
+	\
+	When a new user registers with a unique username, the password is stored in an 	unrecoverable hash form (SHA256). The password is salted with 128 bits of 	CSPRNG integers. \
+	\
+	
+\b\fs32 Login
 \b0\fs24 \
 \
-	}
+	After registration, user passwords are never sent to the client. The server uses a 	double login api route (
+\i login1
+\i0  and 
+\i login2
+\i0 ) in which a challenge is generated and 	HMAC's generated from the client and server are compared to ensure the 		password entered on the client matches the hash on the server. If this remote 	login protocol is successful, the server returns a JWT to the client.\
+	
+\b\fs32 JWT
+\b0\fs24 \
+\
+	Since chat operations happen over a websocket, it's necessary to ensure the 	security of the open socket stream. When a websocket is opened from a client to 	the server, the first message sent to the server must be a valid JWT. This 		prevents the stream from getting highjacked as any new connections must 	provide a valid JWT.\
+\
+	
+\b\fs32 End-to-End Encryption
+\b0\fs24 \
+\
+	To guarantee that the server cannot read user chat messages, 2048-bit RSA 	keys are exchanged between the two individuals in a chat. Both public keys are 	exchanged after JWT websocket stream validation. These keys are used by the 	Apple Security libraries to encrypt user messages before they are sent to the 	server. The encryption process involves taking plaintext and performing a GCM 	mode AES encryption. The symmetric key generated for this encryption is then 	itself encrypted by the 2048-bit RSA public key with PKCS7 padded OAEP-RSA 	and then packaged with the cipher text. See the section 
+\b Encrypting with Apple 	Libraries
+\b0  above for more information. Messages are not archived and only pass 	through server memory. Since the server uses websockets and not polling, it isn't 	necessary to store messages in a database.}

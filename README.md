@@ -21,9 +21,9 @@
 	- [Reverse Proxy Setup](#reverse-proxy-setup)
 	- [Changing Config File](#changing-config-file)
 	- [Logging Access](#logging-access)
-• [Encrypting with Apple Libraries](#encrypting-with-apple-libraries)
+- [Encrypting with Apple Libraries](#encrypting-with-apple-libraries)
 	- [Encrypting](#encrypting)
-• [Security Layers](#security-layers)
+- [Security Layers](#security-layers)
 
 
 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -163,19 +163,28 @@ Immediately after connection, an 'authenticate' message must be emitted to the w
 
 ### Git Tips
 
-To setup an ssh-connected server repository, you first want to create your git repository. Follow these steps:
+To setup an ssh-connected server repository, follow these steps:
 1. SSH to your server. For this tutorial, it is required that the SSH protocol logins solely by key validation and not password. See Setup Server SSH if more information is needed.
 2. Create or change to directory where repository files will be dumped.
+
 	mkdir /myServerProject/
+	
 	cd /myServerProject/
+	
 3. Assuming git is installed, use the following command:
+
 	git init --bare
+	
 * *A bare git repository doesn't collapse all git files into a hidden directory named '.git, instead it dumps all git helper files the repo directory.* *
-4. Now on the machine that will make commits and be pushing to this server,
-in a terminal, change directory to your local machine repository.
+
+4. Now on the machine that will make commits and be pushing to this server, in a terminal, change directory to your local machine repository.
+
 	cd /repositories/myServerProject/
+	
 5. Call the following command to make a new remote:
+
 	git remote add myProductionRemote user@0.0.0.0:/myServerProject/
+	
 6. For this tutorial, the goal is to have the remote server have its filed updated whenever the GitHub origin remote is committed to. Navigate to this directory:
 
 	/repositories/myServerProject/.git/hooks/
